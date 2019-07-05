@@ -1,10 +1,10 @@
 `...::: Projeto criado por ®WW(Wagner Ricardo Wagner) | wagnerricardonet@gmail.com :::..`
 
-## Template Node.js Stack
+## Template Node.js Stack ![alt text](https://www.prchecker.info/free-icons/64x64/rocket_64_px.png)
 
 Este template é "casca" inicial de uma aplicação, visado a produtividade. Nele contém apenas o cadastro de usuários. A stack dele é composta pelo Express, knex, bookShelf.js, multer....
 
-Siga os passos abaixo para entender e configurar o seu ambiente pq coisa fico fodax ;)
+Siga os passos abaixo para entender e configurar o seu ambiente pq a coisa fico fodax ;)
 
 #### Comece por aqui:
 
@@ -14,6 +14,16 @@ Siga os passos abaixo para entender e configurar o seu ambiente pq coisa fico fo
 
 - crie um arquivo `.env` na raíz do projeto e copie o conteúdo do `.env.example`.
 
-##### As variáveis de ambiente:
+- Configure as varáveis de ambiente;
 
-- http://localhost:3000
+#### Criando a base:
+
+Crie sua base de dados no banco pg;
+
+Com o seu terminal vá até o diretório raíz do projeto e execute `knex migrate:latest`
+
+#### Start:
+
+Para roda a api em ambiente de desenvolvimento execute `yarn dev`:
+
+###[Acesse aqui a sua api](http://localhost:3001`)
