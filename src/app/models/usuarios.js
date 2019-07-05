@@ -1,5 +1,13 @@
 const knex = require("../../config/database");
 
-const usuarios = knex("usuarios");
+const { Model } = require("objection");
 
-module.exports = usuarios;
+Model.knex(knex);
+
+class Usuarios extends Model {
+  static get tableName() {
+    return "usuarios";
+  }
+}
+
+module.exports = Usuarios;

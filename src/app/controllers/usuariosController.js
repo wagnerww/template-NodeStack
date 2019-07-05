@@ -1,4 +1,4 @@
-const usuarios = require("../models/usuarios");
+const usuariosModel = require("../models/usuarios");
 const bcrypt = require("bcryptjs");
 
 const response = require("../../config/responsePattern");
@@ -8,25 +8,52 @@ const { usuarioStore } = require("../validators/usuarioValidator");
 class usuariosController {
   async index(req, res, next) {
     try {
-      const users = await usuarios.select("*");
+      const usuarios = await usuariosModel.query().select();
 
-      await users.map(async user => {
-        user.url_avatar = await showAvatar(user.url_avatar);
+      await usuarios.map(async usuario => {
+        usuario.url_avatar = url_avatar
+          ? await showAvatar(usuario.url_avatar)
+          : "";
       });
 
       response.statusCode = 200;
-      response.data = users;
+      response.data = usuarios;
       next(response);
       return;
     } catch (error) {
-      response.statusCode = 401;
+      response.statusCode = 500;
       response.message = error.message;
       next(response);
       return;
     }
   }
 
-  async show(req, res, next) {}
+  async show(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        response.statusCode = 400;
+        response.message = "É necessário informar o id";
+        next(response);
+        return;
+      }
+
+      const usuario = await usuariosModel.query().findById(id);
+
+      usuario.url_avatar = await showAvatar(usuario.url_avatar);
+
+      response.statusCode = 200;
+      response.data = usuario;
+      next(response);
+      return;
+    } catch (error) {
+      response.statusCode = 500;
+      response.message = error.message;
+      next(response);
+      return;
+    }
+  }
 
   async store(req, res, next) {
     try {
@@ -42,7 +69,10 @@ class usuariosController {
       }
 
       const { email } = body;
-      const isExiste = await usuarios.where({ email }).first();
+      const isExiste = await usuariosModel
+        .query()
+        .where({ email })
+        .first();
 
       if (isExiste) {
         response.statusCode = 400;
@@ -53,41 +83,93 @@ class usuariosController {
 
       body.senha = await bcrypt.hash(body.senha, 8);
 
-      const user = await usuarios.insert(body).returning("*");
+      const usuario = await usuariosModel.query().insert(body);
 
       response.statusCode = 200;
-      response.data = user[0];
+      response.data = usuario;
       next(response);
       return;
     } catch (error) {
-      response.statusCode = 401;
+      response.statusCode = 500;
       response.message = error.message;
       next(response);
       return;
     }
   }
 
-  async update(req, res, next) {}
+  async update(req, res, next) {
+    try {
+      const { body, params } = req;
 
-  async destroy(req, res, next) {}
+      const { id } = params;
+
+      if (!id) {
+        response.statusCode = 400;
+        response.message = "É necessário informar o id!";
+        next(response);
+        return;
+      }
+
+      if (body.senha) {
+        body.senha = await bcrypt.hash(body.senha, 8);
+      }
+
+      const usuario = await usuariosModel.query().updateAndFetchById(id, body);
+
+      response.statusCode = 200;
+      response.data = usuario;
+      next(response);
+      return;
+    } catch (error) {
+      response.statusCode = 500;
+      response.message = error.message;
+      next(response);
+      return;
+    }
+  }
+
+  async destroy(req, res, next) {
+    try {
+      const { body, params } = req;
+
+      const { id } = params;
+
+      if (!id) {
+        response.statusCode = 400;
+        response.message = "É necessário informar o id!";
+        next(response);
+        return;
+      }
+
+      const usuario = await usuariosModel.query().deleteById(id);
+
+      response.statusCode = 200;
+      response.data = usuario;
+      next(response);
+      return;
+    } catch (error) {
+      response.statusCode = 500;
+      response.message = error.message;
+      next(response);
+      return;
+    }
+  }
 
   async storeAvatar(req, res, next) {
     try {
       const pathAvatar = req.file.key;
       const { id } = req.params;
-      const usuarioUpd = await usuarios
-        .update({ url_avatar: pathAvatar })
-        .where({ id })
-        .returning("*");
+      const usuario = await usuariosModel
+        .query()
+        .updateAndFetchById(id, { url_avatar: pathAvatar });
 
-      const usuario = usuarioUpd[0];
       usuario.url_avatar = req.file.location;
 
       response.statusCode = 200;
       response.data = usuario;
       next(response);
     } catch (error) {
-      response.statusCode = 401;
+      response.statusCode = 500;
       response.message = error.message;
       next(response);
       return;
@@ -98,7 +180,7 @@ class usuariosController {
 }
 
 function showAvatar(avatar) {
-  const url = `${urlApp}/files/${encodeURIComponent(avatar)}`;
+  const url = avatar ? `${urlApp}/files/${encodeURIComponent(avatar)}` : "";
   return url;
 }
 

@@ -4,7 +4,7 @@ exports.up = function(knex) {
     table.string("nome", 80).notNullable();
     table.string("email", 80).notNullable();
     table.string("senha", 80).notNullable();
-    table.string("url_avatar", 1000);
+    table.string("avatar", 1000);
   });
 };
 

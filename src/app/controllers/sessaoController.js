@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const sessaoValidator = require("../validators/sessaoValidator");
 
 const response = require("../../config/responsePattern");
-const usuarios = require("../models/usuarios");
+const usuariosModel = require("../models/usuarios");
 const authConfig = require("../../config/auth");
 
 class SessionController {
@@ -21,7 +21,10 @@ class SessionController {
 
     const { email, senha } = body;
 
-    const usuario = await usuarios.where({ email }).first();
+    const usuario = await usuariosModel
+      .query()
+      .where({ email })
+      .first();
 
     if (!usuario) {
       response.statusCode = 400;

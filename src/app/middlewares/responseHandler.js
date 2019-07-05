@@ -11,22 +11,8 @@ function responseHandler(ret, req, res, next) {
       msgResponse.details = ret.details;
       break;
 
-    case 403:
-      // Autenticação
-      msgResponse.message = ret.message;
-      break;
-
-    case 400:
-      // Validação
-      msgResponse.message = ret.message;
-      break;
-
-    case 401:
-      // Pau geral
-      msgResponse.message = ret.message;
-      break;
-
     default:
+      msgResponse.message = ret.message;
       break;
   }
 

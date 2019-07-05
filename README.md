@@ -2,7 +2,7 @@
 
 ## Template Node.js Stack ![alt text](https://www.prchecker.info/free-icons/64x64/rocket_64_px.png)
 
-Este template é "casca" inicial de uma aplicação, visado a produtividade. Nele contém apenas o cadastro de usuários. A stack dele é composta pelo Express, knex, bookShelf.js, multer....
+Este template é "casca" inicial de uma aplicação, visado a produtividade. Nele contém apenas o cadastro de usuários. A stack dele é composta pelo Express, knex, objectionJS, multer....
 
 Siga os passos abaixo para entender e configurar o seu ambiente pq a coisa fico fodax ;)
 
@@ -26,4 +26,4 @@ Com o seu terminal vá até o diretório raíz do projeto e execute `knex migrat
 
 Para roda a api em ambiente de desenvolvimento execute `yarn dev`:
 
-###[Acesse aqui a sua api](http://localhost:3001`)
+[Acesse aqui a sua api](http://localhost:3001`)
