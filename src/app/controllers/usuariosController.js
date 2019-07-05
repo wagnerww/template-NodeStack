@@ -39,7 +39,10 @@ class usuariosController {
         return;
       }
 
-      const usuario = await usuariosModel.query().findById(id);
+      const usuario = await usuariosModel
+        .query()
+        .eager("enderecos")
+        .findById(id);
 
       usuario.url_avatar = await showAvatar(usuario.url_avatar);
 
