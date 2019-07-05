@@ -7,7 +7,7 @@ const authMiddleware = require("./app/middlewares/auth");
 const usuariosController = require("./app/controllers/usuariosController");
 const sessaoController = require("./app/controllers/sessaoController");
 
-routes.get("/", (req, res) => res.send("tudo certo"));
+routes.get("/", (req, res) => res.send("API operando 🚀"));
 
 routes.post("/usuarios", usuariosController.store);
 routes.post("/login", sessaoController.store);
