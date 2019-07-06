@@ -5,6 +5,7 @@ const Youch = require("youch");
 //const Sentry = require("@sentry/node");
 //const sentryConfig = require("./config/sentry");
 const path = require("path");
+const cors = require("cors");
 
 const responseHandler = require("./app/Middlewares/responseHandler");
 
@@ -19,6 +20,7 @@ class App {
   }
 
   middlewares() {
+    this.express.use(cors());
     this.express.use(express.json());
     this.express.use(express.urlencoded({ extended: true }));
     this.express.use(

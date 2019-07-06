@@ -49,7 +49,7 @@ class SessionController {
     });
 
     response.statusCode = 200;
-    response.data = { usuario, token: token };
+    response.data = { token: token };
     next(response);
     return;
   }
