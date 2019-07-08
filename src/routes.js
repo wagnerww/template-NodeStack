@@ -14,28 +14,26 @@ routes.post("/usuarios", usuariosController.store);
 routes.post("/login", sessaoController.store);
 
 routes.use(authMiddleware);
-// Daqui para baixo, tudo é autenticado
-/* ---- USUÁRIOS ---- */
-routes.put("/usuarios/:id", usuariosController.update);
-routes.delete("/usuarios/:id", usuariosController.destroy);
 routes.get("/usuarios", usuariosController.index);
-routes.get("/usuarios/:id", usuariosController.show);
+
+// Daqui para baixo, tudo é autenticado
+/* ---- USUÁRIO ---- */
+routes.put("/usuario", usuariosController.update);
+routes.delete("/usuario", usuariosController.destroy);
+routes.get("/usuario", usuariosController.show);
 routes.post(
-  "/usuarios/:id/avatar",
+  "/usuario/avatar",
   multer(multerConfig).single("file"),
   usuariosController.storeAvatar
 );
 
-/* ---- USUÁRIOS ENDEREÇOS ---- */
+/* ---- USUÁRIO ENDEREÇOS ---- */
 // -- CRUD Endereço do usuário
-routes.post("/usuario/:usr_id/endereco", enderecosUsuarioController.store);
-routes.put("/usuario/:usr_id/endereco/:id", enderecosUsuarioController.update);
-routes.delete(
-  "/usuario/:usr_id/endereco/:id",
-  enderecosUsuarioController.destroy
-);
-routes.get("/usuario/:usr_id/enderecos", enderecosUsuarioController.index);
+routes.post("/usuario/endereco", enderecosUsuarioController.store);
+routes.put("/usuario/endereco/:id", enderecosUsuarioController.update);
+routes.delete("/usuario/endereco/:id", enderecosUsuarioController.destroy);
+routes.get("/usuario/enderecos", enderecosUsuarioController.index);
 // -- Todos os endereços de um usuário
-routes.get("/usuario/:usr_id/enderecos/:id", enderecosUsuarioController.show);
+routes.get("/usuario/enderecos/:id", enderecosUsuarioController.show);
 
 module.exports = routes;

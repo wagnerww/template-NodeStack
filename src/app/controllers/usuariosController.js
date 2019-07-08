@@ -30,7 +30,8 @@ class usuariosController {
 
   async show(req, res, next) {
     try {
-      const { id } = req.params;
+      const { usr_id } = req;
+      const id = usr_id;
 
       if (!id) {
         response.statusCode = 400;
@@ -102,9 +103,8 @@ class usuariosController {
 
   async update(req, res, next) {
     try {
-      const { body, params } = req;
-
-      const { id } = params;
+      const { body, params, usr_id } = req;
+      const id = usr_id;
 
       if (!id) {
         response.statusCode = 400;
@@ -133,9 +133,9 @@ class usuariosController {
 
   async destroy(req, res, next) {
     try {
-      const { body, params } = req;
+      const { body, usr_id } = req;
 
-      const { id } = params;
+      const id = usr_id;
 
       if (!id) {
         response.statusCode = 400;
@@ -161,7 +161,9 @@ class usuariosController {
   async storeAvatar(req, res, next) {
     try {
       const pathAvatar = req.file.key;
-      const { id } = req.params;
+      const { usr_id } = req;
+      const id = usr_id;
+
       const usuario = await usuariosModel
         .query()
         .updateAndFetchById(id, { url_avatar: pathAvatar });
