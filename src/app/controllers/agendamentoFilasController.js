@@ -1,4 +1,5 @@
-const filasModel = require("../models/Filas");
+//const filasModel = require("../models/Filas");
+const redisEmail = require("./redis/redisEmail");
 const response = require("../../config/responsePattern");
 
 class enderecosUsuarioController {
@@ -47,7 +48,9 @@ class enderecosUsuarioController {
     try {
       const { body } = req;
 
-      const fila = await filasModel.query().insert(body);
+      //const fila = await filasModel.query().insert(body);
+      redisEmail.store(body);
+      const fila = "tudo certo";
 
       response.statusCode = 200;
       response.data = fila;
