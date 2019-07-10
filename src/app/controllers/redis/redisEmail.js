@@ -18,19 +18,19 @@ class redisEmailController {
   }
 
   async store(conteudo) {
-    try {
-      const value = JSON.stringify(conteudo);
+    const value = JSON.stringify(conteudo);
+    const redisError = await redis.SADD("sendEmail", value, function(
+      err,
+      success
+    ) {
+      if (err) {
+        const retorno = {
+          mensagem: `Falha ao enviar email para a fila: ${err}`
+        };
+      }
+    });
 
-      await redis.SADD("sendEmail", value, function(err, success) {
-        if (!err)
-          retorno = { mensagem: `Falha ao enviar email para a fila: ${err}` };
-      });
-    } catch (error) {
-      response.statusCode = 500;
-      response.message = error.message;
-      next(response);
-      return;
-    }
+    return redisError;
   }
 
   async destroy(req, res, next) {

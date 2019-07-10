@@ -1,9 +1,9 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
 
-send("Atleta vc está quase lá...🕵", "wagnerricardonet@gmail.com");
+//send("Atleta vc está quase lá...🕵", "wagnerricardonet@gmail.com");
 
-async function send(assunto, paraQuem) {
+async function send(assunto, paraQuem, corpoEmail) {
   /* MAIL GUN
  var api_key = "";
   var domain = "";
@@ -33,8 +33,8 @@ async function send(assunto, paraQuem) {
       from: `${process.env.MAIL_FROM_NAME} <${process.env.MAIL_FROM_EMAIL}>`, //De quem
       to: paraQuem,
       subject: assunto,
-      text: "Hello world?", //texto html, isso é um escape se o email bloquear o body do html
-      html: "<b>Hello world?</b>" //corpo do html
+      /* text: corpoEmail, //texto html, isso é um escape se o email bloquear o body do html*/
+      html: corpoEmail //corpo do html
     });
     console.log("Message sent: %s", info.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
@@ -42,3 +42,5 @@ async function send(assunto, paraQuem) {
     errorDescription = `Erro ao enviar o email: ${error}`;
   }
 }
+
+module.exports = send;
