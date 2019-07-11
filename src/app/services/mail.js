@@ -4,6 +4,8 @@ const nodemailer = require("nodemailer");
 //send("Atleta vc está quase lá...🕵", "wagnerricardonet@gmail.com");
 
 async function send(assunto, paraQuem, corpoEmail) {
+  let isEnviado;
+  errorDescription = "";
   /* MAIL GUN
  var api_key = "";
   var domain = "";
@@ -36,11 +38,13 @@ async function send(assunto, paraQuem, corpoEmail) {
       /* text: corpoEmail, //texto html, isso é um escape se o email bloquear o body do html*/
       html: corpoEmail //corpo do html
     });
-    console.log("Message sent: %s", info.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    isEnviado = true;
   } catch (error) {
     errorDescription = `Erro ao enviar o email: ${error}`;
+    isEnviado = false;
   }
+
+  return { isEnviado, errorDescription };
 }
 
 module.exports = send;

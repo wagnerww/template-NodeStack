@@ -27,6 +27,8 @@ class redisEmailController {
         const retorno = {
           mensagem: `Falha ao enviar email para a fila: ${err}`
         };
+      } else {
+        console.log("sucesso", success);
       }
     });
 

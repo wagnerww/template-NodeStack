@@ -12,8 +12,10 @@ enviarEmail = async () => {
         const { assunto, destinatario, corpoEmail } = jsonEmail;
         //envia o email
 
-        await emailService(assunto, destinatario, corpoEmail);
-        redis.SREM("sendEmail", value);
+        const resEmail = await emailService(assunto, destinatario, corpoEmail);
+        const { isEnviado, errorDescription } = resEmail;
+
+        if (isEnviado) redis.SREM("sendEmail", value);
       }
   });
 };

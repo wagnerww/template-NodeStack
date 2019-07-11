@@ -2,6 +2,9 @@ const filasModel = require("../models/filas");
 const redisEmail = require("./redis/redisEmail");
 const response = require("../../config/responsePattern");
 
+const filasValidator = require("../validators/filasValidator");
+const emailValidator = require("../validators/emailValidator");
+
 class enderecosUsuarioController {
   async index(req, res, next) {
     try {
@@ -47,11 +50,35 @@ class enderecosUsuarioController {
   async store(req, res, next) {
     try {
       const { body } = req;
-      const isOk = await redisEmail.store(body.conteudoJson);
       let fila = {};
-      if (!isOk) {
-        body.status = 1;
-        fila = await filasModel.query().insert(body);
+      const { error } = filasValidator.validate(body);
+
+      if (error) {
+        response.statusCode = 400;
+        response.message = error.message;
+        next(response);
+        return;
+      }
+
+      switch (body.tipo) {
+        case 1:
+          const { error } = emailValidator.validate(body.conteudoJson);
+
+          if (error) {
+            response.statusCode = 400;
+            response.message = error.message;
+            next(response);
+            return;
+          }
+          const isOk = await redisEmail.store(body.conteudoJson);
+          if (!isOk) {
+            body.status = 1;
+            fila = await filasModel.query().insert(body);
+          }
+          break;
+
+        default:
+          break;
       }
 
       response.statusCode = 200;
