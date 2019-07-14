@@ -14,9 +14,7 @@ class usuariosController {
       const usuarios = await usuariosModel.query().select();
 
       await usuarios.map(async usuario => {
-        usuario.url_avatar = url_avatar
-          ? await showAvatar(usuario.url_avatar)
-          : "";
+        usuario.avatar = await showAvatar(usuario.avatar);
       });
 
       response.statusCode = 200;
@@ -48,7 +46,7 @@ class usuariosController {
         .eager("enderecos")
         .findById(id);
 
-      usuario.url_avatar = await showAvatar(usuario.url_avatar);
+      usuario.avatar = await showAvatar(usuario.avatar);
 
       response.statusCode = 200;
       response.data = usuario;
@@ -169,9 +167,9 @@ class usuariosController {
 
       const usuario = await usuariosModel
         .query()
-        .updateAndFetchById(id, { url_avatar: pathAvatar });
+        .updateAndFetchById(id, { avatar: pathAvatar });
 
-      usuario.url_avatar = req.file.location;
+      usuario.avatar = req.file.location;
 
       response.statusCode = 200;
       response.data = usuario;
@@ -188,7 +186,12 @@ class usuariosController {
 }
 
 function showAvatar(avatar) {
-  const url = avatar ? `${urlApp}/files/${encodeURIComponent(avatar)}` : "";
+  let url;
+  if (process.env.UPLOAD_METHOD === "S3") {
+    url = `${process.env.URL_CLOUD_STORAGE}/${encodeURIComponent(avatar)}`;
+  } else {
+    url = `${urlApp}/files/${encodeURIComponent(avatar)}`;
+  }
   return url;
 }
 

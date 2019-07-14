@@ -46,5 +46,5 @@ const storageTypes = {
 
 module.exports = {
   dest: destination,
-  storage: storageTypes["S3"]
+  storage: storageTypes[process.env.UPLOAD_METHOD]
 };
