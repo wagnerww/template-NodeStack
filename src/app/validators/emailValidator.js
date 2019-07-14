@@ -9,9 +9,7 @@ const email = Joi.object()
     assunto: Joi.string()
       .required()
       .error(new Error("assunto do email é obrigatório")),
-    corpoEmail: Joi.string()
-      .required()
-      .error(new Error("corpo do email é obrigatório"))
+    corpoEmail: Joi.required().error(new Error("corpo do email é obrigatório"))
   })
   .options({ stripUnknown: true });
 

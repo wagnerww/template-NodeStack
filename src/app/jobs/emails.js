@@ -42,7 +42,12 @@ enviaEmail = async jsonEmail => {
   const { assunto, destinatario, corpoEmail } = jsonEmail;
 
   //envia o email
-  const resEmail = await emailService(assunto, destinatario, corpoEmail);
+  const resEmail = await emailService(
+    assunto,
+    destinatario,
+    corpoEmail,
+    "recuperacaoSenha"
+  );
   const { isEnviado, errorDescription } = resEmail;
   return { isEnviado, errorDescription };
 };

@@ -1,9 +1,12 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
+const path = require("path");
+const hbs = require("nodemailer-express-handlebars");
+const exphbs = require("express-handlebars");
 
 //send("Atleta vc está quase lá...🕵", "wagnerricardonet@gmail.com");
 
-async function send(assunto, paraQuem, corpoEmail) {
+async function send(assunto, paraQuem, corpoEmail, templateEmail) {
   let isEnviado;
   errorDescription = "";
   /* MAIL GUN
@@ -30,13 +33,29 @@ async function send(assunto, paraQuem, corpoEmail) {
     }
   });
 
+  transporter.use(
+    "compile",
+    hbs({
+      viewEngine: {
+        extName: ".hbs",
+        partialsDir: path.resolve(__dirname, "..", "views"),
+        layoutsDir: path.resolve(__dirname, "..", "views"),
+        defaultLayout: `${templateEmail}.hbs`
+      },
+      viewPath: path.resolve(__dirname, "..", "views"),
+      extName: ".hbs"
+    })
+  );
+
   try {
     let info = await transporter.sendMail({
       from: `${process.env.MAIL_FROM_NAME} <${process.env.MAIL_FROM_EMAIL}>`, //De quem
       to: paraQuem,
       subject: assunto,
-      /* text: corpoEmail, //texto html, isso é um escape se o email bloquear o body do html*/
-      html: corpoEmail //corpo do html
+      /* text: corpoEmail, //texto html, isso é um escape se o email bloquear o body do html
+       html: templateEmail ? "" : corpoEmail, //corpo do html,*/
+      template: templateEmail,
+      context: { corpoEmail }
     });
     isEnviado = true;
   } catch (error) {

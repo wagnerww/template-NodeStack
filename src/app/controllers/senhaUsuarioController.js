@@ -45,13 +45,16 @@ class senhaUsuarioController {
           conteudoJson: {
             destinatario: body.email,
             assunto: "Recuperação de senha...🕵",
-            corpoEmail: `<br>Recuperação de senha, clique <a src="http://localhost:3010/recuperarsenha/${hash}">aqui</a> para recupera-lá <br>`
+            corpoEmail: {
+              nome: usuario.nome,
+              link: `http://localhost:3010/recuperarsenha/${hash}`
+            }
           }
         }
       };
 
       const retorno = {
-        menssagem: "Tente novamente mais tarde."
+        mensagem: "Tente novamente mais tarde."
       };
 
       await agendamentoFilasController.store(recuperacaoSenha, res, function(
