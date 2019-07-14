@@ -15,4 +15,13 @@ const usuarioStore = Joi.object()
   })
   .options({ stripUnknown: true });
 
-module.exports = { usuarioStore };
+const recuperarSenha = Joi.object()
+  .keys({
+    email: Joi.string()
+      .email()
+      .required()
+      .error(new Error("e-mail é obrigatório"))
+  })
+  .options({ stripUnknown: true });
+
+module.exports = { usuarioStore, recuperarSenha };

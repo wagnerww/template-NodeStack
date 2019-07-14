@@ -1,9 +1,13 @@
 const usuariosModel = require("../models/usuarios");
 const bcrypt = require("bcryptjs");
 
+const agendamentoFilasController = require("./agendamentoFilasController");
 const response = require("../../config/responsePattern");
 const urlApp = require("../Utils/baseurlApp");
-const { usuarioStore } = require("../validators/usuarioValidator");
+const {
+  usuarioStore,
+  recuperarSenha
+} = require("../validators/usuarioValidator");
 
 class usuariosController {
   async index(req, res, next) {
@@ -181,6 +185,53 @@ class usuariosController {
     }
 
     return;
+  }
+
+  async recuperarSenha(req, res, next) {
+    try {
+      const { body } = req;
+      const { error } = recuperarSenha.validate(body);
+
+      if (error) {
+        response.statusCode = 400;
+        response.message = error.message;
+        next(response);
+        return;
+      }
+
+      const recuperacaoSenha = {
+        body: {
+          tipo: 1,
+          conteudoJson: {
+            destinatario: body.email,
+            assunto: `'Rcuperação de senha...🕵', 'wagnerricardonet@gmail.com'`,
+            corpoEmail: "<br>Recuperação de senha<br>"
+          }
+        }
+      };
+
+      const retorno = {
+        menssagem: "Tente novamente mais tarde."
+      };
+
+      await agendamentoFilasController.store(recuperacaoSenha, res, function(
+        nextFilas
+      ) {
+        if (nextFilas.statusCode === 200) {
+          retorno.menssagem =
+            "Foi enviado uma solicitação de troca de senha para o seu e-mail";
+        }
+      });
+
+      response.statusCode = 200;
+      response.data = retorno;
+      next(response);
+    } catch (error) {
+      response.statusCode = 500;
+      response.message = error.message;
+      next(response);
+      return;
+    }
   }
 }
 

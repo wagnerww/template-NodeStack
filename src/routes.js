@@ -15,6 +15,9 @@ routes.get("/", (req, res) => res.send("API operando 🚀"));
 routes.post("/usuarios", usuariosController.store);
 routes.post("/login", sessaoController.store);
 
+/* ---- RECUPERAÇÃO DE SENHA ---- */
+routes.post("/usuario/recuperarsenha", usuariosController.recuperarSenha);
+
 routes.use(authMiddleware);
 routes.get("/usuarios", usuariosController.index);
 
