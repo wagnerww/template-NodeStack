@@ -6,6 +6,7 @@ const routes = express.Router();
 const authMiddleware = require("./app/middlewares/auth");
 
 const usuariosController = require("./app/controllers/usuariosController");
+const senhaUsuarioController = require("./app/controllers/senhaUsuarioController");
 const enderecosUsuarioController = require("./app/controllers/enderecosUsuarioController");
 const sessaoController = require("./app/controllers/sessaoController");
 const agendamentoFilasController = require("./app/controllers/agendamentoFilasController");
@@ -16,7 +17,8 @@ routes.post("/usuarios", usuariosController.store);
 routes.post("/login", sessaoController.store);
 
 /* ---- RECUPERAÇÃO DE SENHA ---- */
-routes.post("/usuario/recuperarsenha", usuariosController.recuperarSenha);
+routes.post("/usuario/recuperarsenha", senhaUsuarioController.recuperarSenha);
+routes.post("/usuario/trocarsenha/:hash", senhaUsuarioController.trocarSenha);
 
 routes.use(authMiddleware);
 routes.get("/usuarios", usuariosController.index);

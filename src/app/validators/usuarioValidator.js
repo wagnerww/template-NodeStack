@@ -24,4 +24,12 @@ const recuperarSenha = Joi.object()
   })
   .options({ stripUnknown: true });
 
-module.exports = { usuarioStore, recuperarSenha };
+const trocarSenha = Joi.object()
+  .keys({
+    senha: Joi.string()
+      .required()
+      .error(new Error("A senha é obrigatória"))
+  })
+  .options({ stripUnknown: true });
+
+module.exports = { usuarioStore, recuperarSenha, trocarSenha };
