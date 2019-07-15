@@ -47,7 +47,7 @@ class senhaUsuarioController {
             assunto: "Recuperação de senha...🕵",
             corpoEmail: {
               nome: usuario.nome,
-              link: `http://localhost:3010/recuperarsenha/${hash}`
+              link: `http://localhost:3000/trocarsenha/${hash}`
             }
           }
         }
