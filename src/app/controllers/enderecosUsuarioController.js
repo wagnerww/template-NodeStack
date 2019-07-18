@@ -4,7 +4,7 @@ const response = require("../../config/responsePattern");
 class enderecosUsuarioController {
   async index(req, res, next) {
     try {
-      const { usr_id } = req;
+      const { usr_id } = req.params;
 
       if (!usr_id) {
         response.statusCode = 400;
@@ -29,8 +29,8 @@ class enderecosUsuarioController {
 
   async show(req, res, next) {
     try {
-      const { params, usr_id } = req;
-      const { id } = params;
+      const { params } = req;
+      const { id, usr_id } = params;
 
       if (!id || !usr_id) {
         response.statusCode = 400;
@@ -58,7 +58,8 @@ class enderecosUsuarioController {
 
   async store(req, res, next) {
     try {
-      const { body, usr_id } = req;
+      const { body, params } = req;
+      const { usr_id } = params;
 
       if (!usr_id) {
         response.statusCode = 400;
@@ -94,8 +95,8 @@ class enderecosUsuarioController {
 
   async update(req, res, next) {
     try {
-      const { body, params, usr_id } = req;
-      const { id } = params;
+      const { body, params } = req;
+      const { id, usr_id } = params;
 
       if (!id || !usr_id) {
         response.statusCode = 400;
@@ -124,8 +125,8 @@ class enderecosUsuarioController {
 
   async destroy(req, res, next) {
     try {
-      const { params, usr_id } = req;
-      const { id } = params;
+      const { params } = req;
+      const { id, usr_id } = params;
 
       if (!id || !usr_id) {
         response.statusCode = 400;
