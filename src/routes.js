@@ -45,8 +45,8 @@ routes.delete(
   "/usuario/:usr_id/endereco/:id",
   enderecosUsuarioController.destroy
 );
-routes.get("/usuario/:usr_id/enderecos", enderecosUsuarioController.index);
 // -- Todos os endereços de um usuário
+routes.get("/usuario/:usr_id/enderecos", enderecosUsuarioController.index);
 routes.get("/usuario/:usr_id/enderecos/:id", enderecosUsuarioController.show);
 
 module.exports = routes;
