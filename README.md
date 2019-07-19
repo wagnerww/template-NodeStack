@@ -20,7 +20,9 @@ Siga os passos abaixo para entender e configurar o seu ambiente pq a coisa fico 
 
 Crie sua base de dados no banco pg;
 
-Com o seu terminal vá até o diretório raíz do projeto e execute `knex migrate:latest`
+- Com o seu terminal vá até o diretório raíz do projeto e execute `knex migrate:latest`
+
+- Após rodar as migrations, rodar os seeds: `knex seed:make adm`
 
 #### Start:
 
