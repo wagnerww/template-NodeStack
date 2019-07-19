@@ -10,6 +10,18 @@ class Usuarios extends Model {
     return "usuarios";
   }
 
+  async $beforeInsert(Ctx) {
+    await super.$beforeInsert(Ctx);
+    const senha = await hashSenha(this);
+    this.senha = senha;
+  }
+
+  async $beforeUpdate(Ctx) {
+    await super.$beforeUpdate(Ctx);
+    const senha = await hashSenha(this);
+    this.senha = senha;
+  }
+
   static get relationMappings() {
     return {
       enderecos: {
@@ -22,6 +34,11 @@ class Usuarios extends Model {
       }
     };
   }
+}
+
+async function hashSenha({ senha }) {
+  const hash = await bcrypt.hash(senha, 8);
+  return hash;
 }
 
 module.exports = Usuarios;

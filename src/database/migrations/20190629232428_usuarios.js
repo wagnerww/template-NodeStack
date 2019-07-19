@@ -5,9 +5,11 @@ exports.up = function(knex) {
     table.string("email", 80).notNullable();
     table.string("senha", 80).notNullable();
     table.string("avatar", 1000);
+    table.string("telefone", 50);
+    table.integer("perfil", 1);
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTable("users");
+  return knex.schema.dropTable("usuarios");
 };

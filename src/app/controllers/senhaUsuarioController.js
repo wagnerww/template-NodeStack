@@ -110,8 +110,6 @@ class senhaUsuarioController {
         return;
       }
 
-      body.senha = await bcrypt.hash(body.senha, 8);
-
       await usuariosModel
         .query()
         .update(body)

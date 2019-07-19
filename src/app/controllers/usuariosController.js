@@ -85,8 +85,6 @@ class usuariosController {
         return;
       }
 
-      body.senha = await bcrypt.hash(body.senha, 8);
-
       const usuario = await usuariosModel.query().insert(body);
 
       response.statusCode = 200;
@@ -111,10 +109,6 @@ class usuariosController {
         response.message = "É necessário informar o id!";
         next(response);
         return;
-      }
-
-      if (body.senha) {
-        body.senha = await bcrypt.hash(body.senha, 8);
       }
 
       const usuario = await usuariosModel.query().updateAndFetchById(id, body);
