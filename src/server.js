@@ -7,7 +7,7 @@ const Youch = require("youch");
 const path = require("path");
 const cors = require("cors");
 
-const responseHandler = require("./app/Middlewares/responseHandler");
+const responseHandler = require("./app/middlewares/responseHandler");
 
 class App {
   constructor() {
