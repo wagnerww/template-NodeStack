@@ -1,5 +1,4 @@
 const usuariosModel = require("../models/usuarios");
-const bcrypt = require("bcryptjs");
 
 const response = require("../../config/responsePattern");
 const urlApp = require("../Utils/baseurlApp");
